@@ -101,7 +101,51 @@
   </div>
 
   <script>
-    // JavaScript here...
+  //JS
+  // var flowerElement = document.getElementById("flower");
+  // // <div id="flower"></div>
+  // flowerElement.className = "bloom";
+  // // <div id="flower" class="bloom"></div>
+  // document.getElementsByTagName("p");
+  // // select all the paragraphs on a page
+  // document.getElementById("flower");
+  // document.getElementsByClassName("alert");
+
+function updateCounters() {
+var todoCounter = document.getElementById('todo-count');
+var totalTodos = document.getElementsByClassName("todo").length;
+todoCounter.innerHTML = totalTodos;
+ // Total number of todos
+
+var completedCount = document.getElementById('completed-count');
+var completedTodos = document.getElementsByClassName("completed").length;
+completedCount.innerHTML = completedTodos;
+  // Total number of completed todos
+
+var todoCount = document.getElementById('todocount');
+var uncompletedTodos = totalTodos - completedTodos;
+todoCount.innerHTML = uncompletedTodos;
+ // Total number of uncompleted todos
+
+
+}
+
+updateCounters();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </script>
 </body>
 </html>

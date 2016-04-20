@@ -79,7 +79,7 @@
   <div class="container">
     <h1>TodoList</h1>
 
-    <form>
+    <form onSubmit="submitTodo(); return false">
       <input type="text" id="new-todo" placeholder="What needs to be done?">
     </form>
 
@@ -94,10 +94,12 @@
       </li>
     </ul>
     <div class="footer">
-      Todo: <span id="todo-count">1</span> •
-      Done: <span id="completed-count">0</span> •
-      Total: <span id="total-count">1</span>
-    </div>
+  Todo: <span id="todo-count">1</span> •
+  Done: <span id="completed-count">0</span> •
+  Total: <span id="total-count">1</span> •
+  <!-- link to clean up todos that are done -->
+  <a href="#" onClick="cleanUpDoneTodos(); return false">Clean up</a>
+</div>
   </div>
 
   <script>
@@ -122,7 +124,7 @@ var completedTodos = document.getElementsByClassName("completed").length;
 completedCount.innerHTML = completedTodos;
   // Total number of completed todos
 
-var todoCount = document.getElementById('todocount');
+var todoCount = document.getElementById('todo-count');
 var uncompletedTodos = totalTodos - completedTodos;
 todoCount.innerHTML = uncompletedTodos;
  // Total number of uncompleted todos
@@ -144,16 +146,64 @@ function toggleDone() {
   updateCounters();
 }
 
+function submitTodo() {
+  var inputField = document.getElementById("new-todo");
+  var newTodoTitle = inputField.value;
+  createTodo(newTodoTitle);
+
+  inputField.value = null;
+
+  updateCounters();
+}
+
+  function createTodo(title) {
+    var listItem = document.createElement("li");
+    listItem,className = "todo";
+    // create a list item
+
+ // create a checkbox and add it to the list item
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = "todo-" + nextTodoId();
+    checkbox.value = "1";
+    checkbox.checked = false;
+    // assign the toggleDone function on the checkbox's onchange event
+    checkbox.onchange = toggleDone.bind(checkbox);
+    listItem.appendChild(checkbox);
+
+    // create some whitespace to put between the checkbox and the label
+    space = document.createTextNode(" ");
+    listItem.appendChild(space);
+
+     // create a label that holds the title and add it to the list item
+     var label = document.createElement("label");
+     label.htmlFor = checkbox.id;
+     label.innerHTML = title;
+     listItem.appendChild(label);
+
+     // add the list item with the checkbox, the whitespace and the label to the list
+     var list = document.getElementById("todolist");
+     list.appendChild(listItem);
+
+       updateCounters();
+  }
+  function nextTodoId() {
+    return document.getElementsByClassName("todo").length + 1;
+}
 
 
+function cleanUpDoneTodos() {
+  var list = document.getElementById("todolist");
+  var doneItems = document.getElementsByClassName("completed");
 
+  // Reverse loop through the done todo items so we can remove them without
+  // changing the index of the remaining items when we remove them
+  for (var i = doneItems.length; i > 0; i--) {
+    list.removeChild(doneItems[i-1]);
+  }
 
-
-
-
-
-
-
+  updateCounters();
+}
 
 
 
